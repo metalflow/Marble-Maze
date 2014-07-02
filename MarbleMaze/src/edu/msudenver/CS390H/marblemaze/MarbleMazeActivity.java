@@ -1,14 +1,22 @@
 package edu.msudenver.CS390H.marblemaze;
 
+import java.util.List;
 import edu.msudenver.CS390H.marblemaze.util.SystemUiHider;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -16,7 +24,7 @@ import android.view.View;
  * 
  * @see SystemUiHider
  */
-public class MarbleMazeActivity extends Activity {
+public class MarbleMazeActivity extends Activity implements SensorEventListener {
 	/**
 	 * Whether or not the system UI should be auto-hidden after
 	 * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -45,6 +53,11 @@ public class MarbleMazeActivity extends Activity {
 	 */
 	private SystemUiHider mSystemUiHider;
 
+	private SensorManager mSensorManager;
+	private List<Sensor> deviceSensors;
+	private Sensor mSensor;
+	private float[] gravityValues;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,7 +65,7 @@ public class MarbleMazeActivity extends Activity {
 		setContentView(R.layout.activity_marble_maze);
 
 		final View controlsView = findViewById(R.id.fullscreen_content_controls);
-		final View contentView = findViewById(R.id.fullscreen_content);
+		final View contentView = findViewById(R.id.playFieldView);
 
 		// Set up an instance of SystemUiHider to control the system UI for
 		// this activity.
@@ -68,6 +81,10 @@ public class MarbleMazeActivity extends Activity {
 					@Override
 					@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 					public void onVisibilityChange(boolean visible) {
+						Log.i("MarbleMazeActivity_OnCreate_Build.VERSION.SDK_INT",
+								"" + Build.VERSION.SDK_INT);
+						Log.i("MarbleMazeActivity_OnCreate_Build.VERSION_CODES.HONEYCOMB_MR2",
+								"" + Build.VERSION_CODES.HONEYCOMB_MR2);
 						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
 							// If the ViewPropertyAnimator API is available
 							// (Honeycomb MR2 and later), use it to animate the
@@ -116,6 +133,16 @@ public class MarbleMazeActivity extends Activity {
 		// while interacting with the UI.
 		findViewById(R.id.dummy_button).setOnTouchListener(
 				mDelayHideTouchListener);
+
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_marble_maze);
+
+		View visualizer = contentView;
+		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		deviceSensors = mSensorManager.getSensorList(Sensor.TYPE_ALL);
+
+		Log.i("MarbleMazeActivity_OnCreate", "On create finished");
+
 	}
 
 	@Override
@@ -158,5 +185,53 @@ public class MarbleMazeActivity extends Activity {
 	private void delayedHide(int delayMillis) {
 		mHideHandler.removeCallbacks(mHideRunnable);
 		mHideHandler.postDelayed(mHideRunnable, delayMillis);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+
+		for (Sensor device : deviceSensors) {
+			Log.i("MarbleMazeActivity_OnStart_DeviceList",
+					device.getName() + '\n');
+		}
+
+		if (mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
+			mSensor = mSensorManager
+					.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+			Log.i("MarbleMazeActivity_OnStart", "Using Gravity Sensor:"
+					+ mSensor.getName() + '\n');
+		} else
+			Log.i("MarbleMazeActivity_OnStart", "NO GAVITY SENSOR!" + '\n');
+
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		mSensorManager.registerListener(this, mSensor,
+				SensorManager.SENSOR_DELAY_NORMAL);
+
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		mSensorManager.unregisterListener(this);
+	}
+
+	@Override
+	public final void onAccuracyChanged(Sensor sensor, int accuracy) {
+		// Do something here if sensor accuracy changes.
+	}
+
+	@Override
+	public final void onSensorChanged(SensorEvent event) {
+		gravityValues = event.values;
+		/*
+		 * for (float value : gravityValues){
+		 * Log.i("MarbleMazeActivity_onSensorChanged", "" +value+'\n'); }
+		 */
 	}
 }
