@@ -4,5 +4,9 @@
     <string name="app_name">Marble Maze</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="Title">Marble Maze</string>
+    <string name="text_highscore_button">High Scores!</string>
+    <string name="text_play_button">Play the Game!</string>
+    <string name="text_settings_button">Game settings</string>
 
 </resources>

@@ -3,7 +3,7 @@ package edu.msudenver.CS390H.marblemaze;
 import java.util.List;
 import edu.msudenver.CS390H.marblemaze.util.SystemUiHider;
 import android.annotation.TargetApi;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -59,9 +59,8 @@ public class MazeFragment extends Fragment implements SensorEventListener
 	private Sensor mSensor;
 	private float[] gravityValues;
 
-	@Override //Bundle savedInstanceState
-	protected void onCreate() {
-		//super.onCreate(savedInstanceState);
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
 		Activity parentActivity = super.getActivity();
 		parentActivity.setContentView(R.layout.activity_marble_maze);
@@ -146,7 +145,6 @@ public class MazeFragment extends Fragment implements SensorEventListener
 
 	}
 
-	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		//super.onPostCreate(savedInstanceState);
 
