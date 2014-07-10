@@ -35,7 +35,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class layout {
         public static final int activity_marble_maze=0x7f030000;
-        public static final int main_screen_marble_maze=0x7f030001;
+        public static final int highscores=0x7f030001;
+        public static final int main_screen_marble_maze=0x7f030002;
+        public static final int settings=0x7f030003;
     }
     public static final class string {
         public static final int Title=0x7f050003;
