@@ -1,6 +1,88 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
-    
-</LinearLayout>
+    android:layout_height="fill_parent" >
+
+    <TextView
+        android:id="@+id/settings_Sound_Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:scrollbarAlwaysDrawVerticalTrack="false"
+        android:text="@string/settings_sound" />
+
+    <SeekBar
+        android:id="@+id/volumeSeek"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/settings_Sound_Title" />
+
+    <TextView
+        android:id="@+id/settings_Graphics_Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/volumeSeek"
+        android:ems="10"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:scrollbarAlwaysDrawVerticalTrack="false"
+        android:text="@string/settings_Graphics" />
+
+    <RadioButton
+        android:id="@+id/graphics_Radio_2D"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/settings_Graphics_Title"
+        android:text="@string/settings_Radio_2DGraphics" />
+
+    <RadioButton
+        android:id="@+id/graphics_Radio_OpenGL1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/graphics_Radio_2D"
+        android:text="@string/settings_Radio_Title_OpenGL1" />
+
+    <RadioButton
+        android:id="@+id/graphics_Radio_OpenGL2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/graphics_Radio_OpenGL1"
+        android:text="@string/settings_Radio_Text_OpenGL2" />
+
+    <TextView
+        android:id="@+id/settings_Sensor_Sensitivity_Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/graphics_Radio_OpenGL2"
+        android:ems="10"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:scrollbarAlwaysDrawVerticalTrack="false"
+        android:text="@string/settings_Sensor_Sensitivity" />
+
+    <SeekBar
+        android:id="@+id/sensorSensitivitySeek"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/settings_Sensor_Sensitivity_Title" />
+
+</RelativeLayout>

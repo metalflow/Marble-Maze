@@ -8,5 +8,12 @@
     <string name="text_highscore_button">High Scores!</string>
     <string name="text_play_button">Play the Game!</string>
     <string name="text_settings_button">Game settings</string>
+    <string name="highscore">Higest Scores!</string>
+    <string name="settings_sound">Sound Settings</string>
+    <string name="settings_Graphics">Graphics Settings</string>
+    <string name="settings_Radio_2DGraphics">2D graphics</string>
+    <string name="settings_Radio_Title_OpenGL1">Low quality 3D</string>
+    <string name="settings_Radio_Text_OpenGL2">High quality 3D</string>
+    <string name="settings_Sensor_Sensitivity">Sensor Sensitivity</string>
 
 </resources>
