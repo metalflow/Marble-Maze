@@ -13,19 +13,37 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Log.i("MainActivity_onCreate", "onCreate started");
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_container);
-
+		
 		Fragment titleFrag = new TitleFragment();
 		FragmentTransaction transaction = getSupportFragmentManager()
-				.beginTransaction();
-		transaction.add(titleFrag, null);
-		transaction.addToBackStack(null);
+			.beginTransaction();
+		transaction.add(R.id.fragElement,titleFrag,null);
+		//transaction.addToBackStack(null);
 		transaction.commit();
-
+		
 		Log.i("MainActivity_onCreate", "onCreate finished");
 	}
-
+	
+	@Override
+	protected void onStart(){
+		super.onStart();
+		
+		/*
+		Fragment titleFrag = new TitleFragment();
+		FragmentTransaction transaction = getSupportFragmentManager()
+			.beginTransaction();
+		//transaction.add(titleFrag,null);	
+		//transaction.add(R.layout.fragment_container,titleFrag);
+		transaction.addToBackStack(null);
+		transaction.commit();
+	*/
+		Log.i("MainActivity_onCreate", "onStart finished");
+	}
+	
 	public void executePlayGame(View view) {
 		Fragment gameFrag = new MazeFragment();
 		transaction = getSupportFragmentManager().beginTransaction();
@@ -46,9 +64,11 @@ public class MainActivity extends FragmentActivity {
 
 	public void executeHighScore(View view) {
 		Fragment highFrag = new HighScoresFragment();
-		transaction = getSupportFragmentManager().beginTransaction();
-		transaction.add(highFrag, null);
-		transaction.addToBackStack(null);
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+		//transaction.add(highFrag,null);
+		transaction.replace(R.id.fragElement,highFrag,null);
+		//transaction.replace(R.layout.fragment_container,highFrag,null);
+		//transaction.addToBackStack(null);
 		transaction.commit();
 		Log.i("MainActivity_executeHighSCore", "executeHighSCore finished");
 	}

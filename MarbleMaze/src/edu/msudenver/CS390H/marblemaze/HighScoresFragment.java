@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.*;
+
 
 public class HighScoresFragment extends Fragment {
 
@@ -24,7 +26,7 @@ public class HighScoresFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActivity().setContentView(R.layout.highscores);
+		//getActivity().setContentView(R.layout.highscores);
 
 		highscoreFile = new File(getActivity().getFilesDir(), "highscores.dat");
 		if (highscoreFile.exists()) {
@@ -64,15 +66,26 @@ public class HighScoresFragment extends Fragment {
 	}
 
 	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+	{
+		View fragView = inflater.inflate(R.layout.highscores,container,false);
+		Log.i("HihgScoresFragment_onCreateView", "onCreateView finished");
+		return fragView;
+		//return super.onCreateView(inflater, container, savedInstanceState);
+	}
+
+	
+	@Override
 	public void onStart() {
 		super.onStart();
 		highscoreList = (TextView) getActivity().findViewById(
 				R.id.highscore_box);
-		highscoreList.append("name		: 	time");
+		highscoreList.append("name		: 	time"+'\n');
 		for (int i = 0; i < 5; i++) {
 			highscoreList.append(names[i] + ": " + times[i] + '\n');
 		}
 
 		Log.i("HighScoresFragment_onCreate", "onCreate finished");
 	}
+	
 }

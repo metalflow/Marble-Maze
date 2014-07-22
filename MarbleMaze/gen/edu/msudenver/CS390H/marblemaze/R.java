@@ -27,7 +27,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class id {
         public static final int dummy_button=0x7f070002;
-        public static final int fragment_container=0x7f070003;
+        public static final int fragElement=0x7f070003;
         public static final int fullscreen_content_controls=0x7f070001;
         public static final int graphics_Radio_2D=0x7f070009;
         public static final int graphics_Radio_OpenGL1=0x7f07000a;
