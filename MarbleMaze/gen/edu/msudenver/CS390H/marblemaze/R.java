@@ -29,27 +29,31 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int dummy_button=0x7f070002;
         public static final int fragElement=0x7f070003;
         public static final int fullscreen_content_controls=0x7f070001;
-        public static final int graphics_Radio_2D=0x7f070009;
-        public static final int graphics_Radio_OpenGL1=0x7f07000a;
-        public static final int graphics_Radio_OpenGL2=0x7f07000b;
-        public static final int highscore_Button=0x7f070010;
-        public static final int highscore_box=0x7f070005;
-        public static final int highscore_layout=0x7f070004;
+        public static final int graphics_Radio_2D=0x7f07000b;
+        public static final int graphics_Radio_OpenGL1=0x7f07000c;
+        public static final int graphics_Radio_OpenGL2=0x7f07000d;
+        public static final int graphics_Radio_OpenGL3=0x7f07000e;
+        public static final int highscore_Button=0x7f070013;
+        public static final int highscore_box=0x7f070006;
+        public static final int highscore_layout=0x7f070005;
+        public static final int playField=0x7f070004;
         public static final int playFieldView=0x7f070000;
-        public static final int play_Button=0x7f07000e;
-        public static final int sensorSensitivitySeek=0x7f07000d;
-        public static final int settings_Button=0x7f07000f;
-        public static final int settings_Graphics_Title=0x7f070008;
-        public static final int settings_Sensor_Sensitivity_Title=0x7f07000c;
-        public static final int settings_Sound_Title=0x7f070006;
-        public static final int volumeSeek=0x7f070007;
+        public static final int play_Button=0x7f070011;
+        public static final int sensorSensitivitySeek=0x7f070010;
+        public static final int settings_Button=0x7f070012;
+        public static final int settings_Graphics_Radio_Group=0x7f07000a;
+        public static final int settings_Graphics_Title=0x7f070009;
+        public static final int settings_Sensor_Sensitivity_Title=0x7f07000f;
+        public static final int settings_Sound_Title=0x7f070007;
+        public static final int volumeSeek=0x7f070008;
     }
     public static final class layout {
         public static final int activity_marble_maze=0x7f030000;
         public static final int fragment_container=0x7f030001;
-        public static final int highscores=0x7f030002;
-        public static final int settings=0x7f030003;
-        public static final int title_screen=0x7f030004;
+        public static final int game=0x7f030002;
+        public static final int highscores=0x7f030003;
+        public static final int settings=0x7f030004;
+        public static final int title_screen=0x7f030005;
     }
     public static final class string {
         public static final int Title=0x7f050003;
@@ -61,6 +65,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int settings_Radio_2DGraphics=0x7f05000a;
         public static final int settings_Radio_Text_OpenGL2=0x7f05000c;
         public static final int settings_Radio_Title_OpenGL1=0x7f05000b;
+        public static final int settings_Radio_Title_OpenGL3=0x7f05000e;
         public static final int settings_Sensor_Sensitivity=0x7f05000d;
         public static final int settings_sound=0x7f050008;
         public static final int text_highscore_button=0x7f050004;

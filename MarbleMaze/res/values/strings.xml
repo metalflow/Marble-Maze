@@ -13,7 +13,8 @@
     <string name="settings_Graphics">Graphics Settings</string>
     <string name="settings_Radio_2DGraphics">2D graphics</string>
     <string name="settings_Radio_Title_OpenGL1">Low quality 3D</string>
-    <string name="settings_Radio_Text_OpenGL2">High quality 3D</string>
+    <string name="settings_Radio_Text_OpenGL2">Medium Quality 3D</string>
     <string name="settings_Sensor_Sensitivity">Sensor Sensitivity</string>
+    <string name="settings_Radio_Title_OpenGL3">High Quality 3D</string>
 
 </resources>

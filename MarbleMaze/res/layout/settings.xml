@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
@@ -37,40 +38,47 @@
         android:scrollbarAlwaysDrawVerticalTrack="false"
         android:text="@string/settings_Graphics" />
 
-    <RadioButton
-        android:id="@+id/graphics_Radio_2D"
-        android:layout_width="wrap_content"
+    <RadioGroup
+        android:id="@+id/settings_Graphics_Radio_Group"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@id/settings_Graphics_Title"
-        android:text="@string/settings_Radio_2DGraphics" />
+        android:orientation="vertical" >
 
-    <RadioButton
-        android:id="@+id/graphics_Radio_OpenGL1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/graphics_Radio_2D"
-        android:text="@string/settings_Radio_Title_OpenGL1" />
+        <RadioButton
+            android:id="@+id/graphics_Radio_2D"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_Radio_2DGraphics" />
 
-    <RadioButton
-        android:id="@+id/graphics_Radio_OpenGL2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/graphics_Radio_OpenGL1"
-        android:text="@string/settings_Radio_Text_OpenGL2" />
+        <RadioButton
+            android:id="@+id/graphics_Radio_OpenGL1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_Radio_Title_OpenGL1" />
+
+        <RadioButton
+            android:id="@+id/graphics_Radio_OpenGL2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_Radio_Text_OpenGL2" />
+
+        <RadioButton
+            android:id="@+id/graphics_Radio_OpenGL3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_Radio_Title_OpenGL3" />
+    </RadioGroup>
 
     <TextView
         android:id="@+id/settings_Sensor_Sensitivity_Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/graphics_Radio_OpenGL2"
+        android:layout_below="@+id/settings_Graphics_Radio_Group"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:ems="10"
         android:focusable="false"
         android:focusableInTouchMode="false"
@@ -83,6 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/settings_Sensor_Sensitivity_Title" />
+        android:layout_below="@+id/settings_Sensor_Sensitivity_Title"
+        android:layout_centerVertical="true" />
 
 </RelativeLayout>

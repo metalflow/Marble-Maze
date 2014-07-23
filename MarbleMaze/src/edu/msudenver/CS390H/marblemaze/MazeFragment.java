@@ -1,145 +1,51 @@
 package edu.msudenver.CS390H.marblemaze;
 
 import java.util.List;
-import edu.msudenver.CS390H.marblemaze.util.SystemUiHider;
-import android.annotation.TargetApi;
-import android.support.v4.app.Fragment;
+
 import android.content.Context;
-import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
-import android.app.*;
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- * 
- * @see SystemUiHider
- */
+import android.view.ViewGroup;
+
 public class MazeFragment extends Fragment implements SensorEventListener
 {
-	/**
-	 * Whether or not the system UI should be auto-hidden after
-	 * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
-	 */
-	private static final boolean AUTO_HIDE = true;
-
-	/**
-	 * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
-	 * user interaction before hiding the system UI.
-	 */
-	private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
-
-	/**
-	 * If set, will toggle the system UI visibility upon interaction. Otherwise,
-	 * will show the system UI visibility upon interaction.
-	 */
-	private static final boolean TOGGLE_ON_CLICK = true;
-
-	/**
-	 * The flags to pass to {@link SystemUiHider#getInstance}.
-	 */
-	private static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
-
-	/**
-	 * The instance of the {@link SystemUiHider} for this activity.
-	 */
-	private SystemUiHider mSystemUiHider;
-
 	private SensorManager mSensorManager;
 	private List<Sensor> deviceSensors;
 	private Sensor mSensor;
-	private float[] gravityValues;
-
+	private SharedPreferences prefs;
+	private int volume;
+	private int sensitivity;
+	private int graphicsVersion;
+	private Fragment drawFrag;
+	private Fragment TwoDDrawFrag;
+	private Fragment OpenGL1DrawFrag;
+	private Fragment OpenGL2DrawFrag;
+	private Fragment OpenGL3DrawFrag;
+	
+//------------LIFE CYCLE EVENTS-------------------------------------------------
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		Activity parentActivity = super.getActivity();
-		parentActivity.setContentView(R.layout.activity_marble_maze);
-
-		final View controlsView = parentActivity.findViewById(R.id.fullscreen_content_controls);
-		final View contentView = parentActivity.findViewById(R.id.playFieldView);
-
-		// Set up an instance of SystemUiHider to control the system UI for
-		// this activity.
-		mSystemUiHider = SystemUiHider.getInstance(parentActivity, contentView,
-												   HIDER_FLAGS);
-		mSystemUiHider.setup();
-		mSystemUiHider
-			.setOnVisibilityChangeListener(new SystemUiHider.OnVisibilityChangeListener() {
-				// Cached values.
-				int mControlsHeight;
-				int mShortAnimTime;
-
-				@Override
-				@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-				public void onVisibilityChange(boolean visible) {
-					Log.i("MarbleMazeActivity_OnCreate_Build.VERSION.SDK_INT",
-						  "" + Build.VERSION.SDK_INT);
-					Log.i("MarbleMazeActivity_OnCreate_Build.VERSION_CODES.HONEYCOMB_MR2",
-						  "" + Build.VERSION_CODES.HONEYCOMB_MR2);
-					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-						// If the ViewPropertyAnimator API is available
-						// (Honeycomb MR2 and later), use it to animate the
-						// in-layout UI controls at the bottom of the
-						// screen.
-						if (mControlsHeight == 0) {
-							mControlsHeight = controlsView.getHeight();
-						}
-						if (mShortAnimTime == 0) {
-							mShortAnimTime = getResources().getInteger(
-								android.R.integer.config_shortAnimTime);
-						}
-						controlsView
-							.animate()
-							.translationY(visible ? 0 : mControlsHeight)
-							.setDuration(mShortAnimTime);
-					} else {
-						// If the ViewPropertyAnimator APIs aren't
-						// available, simply show or hide the in-layout UI
-						// controls.
-						controlsView.setVisibility(visible ? View.VISIBLE
-												   : View.GONE);
-					}
-
-					if (visible && AUTO_HIDE) {
-						// Schedule a hide().
-						delayedHide(AUTO_HIDE_DELAY_MILLIS);
-					}
-				}
-			});
-
-		// Set up the user interaction to manually show or hide the system UI.
-		contentView.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					if (TOGGLE_ON_CLICK) {
-						mSystemUiHider.toggle();
-					} else {
-						mSystemUiHider.show();
-					}
-				}
-			});
-
-		// Upon interacting with UI controls, delay any scheduled hide()
-		// operations to prevent the jarring behavior of controls going away
-		// while interacting with the UI.
-		parentActivity.findViewById(R.id.dummy_button).setOnTouchListener(
-			mDelayHideTouchListener);
-
-		parentActivity.setContentView(R.layout.activity_marble_maze);
-
-		View visualizer = contentView;
-		mSensorManager = (SensorManager) parentActivity.getSystemService(Context.SENSOR_SERVICE);
+		
+		Log.i("MazeFragment_OnCreate", "Sensor Device list");
+		mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
 		deviceSensors = mSensorManager.getSensorList(Sensor.TYPE_ALL);
+		for (Sensor sensor : deviceSensors){
+			Log.i("SensorList", sensor.getName() + " TYPE CODE: " + sensor.getType());
+		}
+		
+		TwoDDrawFrag = new TwoDDrawFrag();
+		OpenGL1DrawFrag= new OpenGL1DrawFrag();
+		OpenGL2DrawFrag= new OpenGL2DrawFrag();
+		OpenGL3DrawFrag= new OpenGL3DrawFrag();
 
 		Log.i("MarbleMazeActivity_OnCreate", "On create finished");
 
@@ -148,90 +54,77 @@ public class MazeFragment extends Fragment implements SensorEventListener
 	protected void onPostCreate(Bundle savedInstanceState) {
 		//super.onPostCreate(savedInstanceState);
 
-		// Trigger the initial hide() shortly after the activity has been
-		// created, to briefly hint to the user that UI controls
-		// are available.
-		delayedHide(100);
+
+		
 	}
-
-	/**
-	 * Touch listener to use for in-layout UI controls to delay hiding the
-	 * system UI. This is to prevent the jarring behavior of controls going away
-	 * while interacting with activity UI.
-	 */
-	View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-		@Override
-		public boolean onTouch(View view, MotionEvent motionEvent) {
-			if (AUTO_HIDE) {
-				delayedHide(AUTO_HIDE_DELAY_MILLIS);
-			}
-			return false;
-		}
-	};
-
-	Handler mHideHandler = new Handler();
-	Runnable mHideRunnable = new Runnable() {
-		@Override
-		public void run() {
-			mSystemUiHider.hide();
-		}
-	};
-
-	/**
-	 * Schedules a call to hide() in [delay] milliseconds, canceling any
-	 * previously scheduled calls.
-	 */
-	private void delayedHide(int delayMillis) {
-		mHideHandler.removeCallbacks(mHideRunnable);
-		mHideHandler.postDelayed(mHideRunnable, delayMillis);
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+	{
+		View fragView = inflater.inflate(R.layout.game,container,false);
+		Log.i("HihgScoresFragment_onCreateView", "onCreateView finished");
+		return fragView;
+		//return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
 
-		for (Sensor device : deviceSensors) {
-			Log.i("MarbleMazeActivity_OnStart_DeviceList",
-				  device.getName() + '\n');
-		}
-
-		if (mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
-			mSensor = mSensorManager
-				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-			Log.i("MarbleMazeActivity_OnStart", "Using Gravity Sensor:"
-				  + mSensor.getName() + '\n');
-		} else
-			Log.i("MarbleMazeActivity_OnStart", "NO GAVITY SENSOR!" + '\n');
-
+		
+		
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 
-		mSensorManager.registerListener(this, mSensor,
-										SensorManager.SENSOR_DELAY_NORMAL);
-
+		prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+		volume = prefs.getInt("volume", 100);
+		sensitivity = prefs.getInt("sensitivity", 100);
+		graphicsVersion = prefs.getInt("graphicsVersion", 0);
+		/*
+		private Fragment TwoDDrawFrag;
+		private Fragment OpenGL1DrawFrag;
+		private Fragment OpenGL2DrawFrag;
+		private Fragment OpenGL3DrawFrag;
+		
+		
+		if (graphicsVersion == 3 && OpenGL3DrawFrag.gets)
+		drawFrag = new TitleFragment();
+		FragmentTransaction transaction = getSupportFragmentManager()
+				.beginTransaction();
+		transaction.add(R.id.fragElement, titleFrag, "title");
+		// transaction.addToBackStack(null);
+		transaction.commit();
+		*/
+		mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+		
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
+
 		mSensorManager.unregisterListener(this);
+		
+	}
+
+
+
+//--------------------SENSOR EVENTS--------------------------------------------------
+	
+
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	public final void onAccuracyChanged(Sensor sensor, int accuracy) {
-		// Do something here if sensor accuracy changes.
-	}
-
-	@Override
-	public final void onSensorChanged(SensorEvent event) {
-		gravityValues = event.values;
-		/*
-		 * for (float value : gravityValues){
-		 * Log.i("MarbleMazeActivity_onSensorChanged", "" +value+'\n'); }
-		 */
+	public void onSensorChanged(SensorEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
