@@ -1,4 +1,4 @@
-<View xmlns:android="http://schemas.android.com/apk/res/android"
+<SurfaceView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="edu.msudenver.CS390H.marblemaze.MainFragment"
     android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"

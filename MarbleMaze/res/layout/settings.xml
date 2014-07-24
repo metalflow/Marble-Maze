@@ -1,7 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+	android:background="#000000">
 
     <TextView
         android:id="@+id/settings_Sound_Title"
@@ -94,4 +95,28 @@
         android:layout_below="@+id/settings_Sensor_Sensitivity_Title"
         android:layout_centerVertical="true" />
 
+	<TextView
+        android:id="@+id/settings_SensorList_Title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sensorSensitivitySeek"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:ems="10"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:scrollbarAlwaysDrawVerticalTrack="false"
+        android:text="@string/settings_Sensor_List_Title" />
+	
+	<TextView
+        android:id="@+id/settings_SensorList"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_below="@id/settings_SensorList_Title"
+        android:textSize="12sp"
+        android:typeface="monospace" />
+	
 </RelativeLayout>

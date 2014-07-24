@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.SurfaceView;
+import android.opengl.GLSurfaceView;
 
 public class MazeFragment extends Fragment implements SensorEventListener
 {
@@ -26,10 +28,8 @@ public class MazeFragment extends Fragment implements SensorEventListener
 	private int sensitivity;
 	private int graphicsVersion;
 	private Fragment drawFrag;
-	private Fragment TwoDDrawFrag;
-	private Fragment OpenGL1DrawFrag;
-	private Fragment OpenGL2DrawFrag;
-	private Fragment OpenGL3DrawFrag;
+	private FragmentTransaction transaction;
+	private SurfaceView playfield;
 	
 //------------LIFE CYCLE EVENTS-------------------------------------------------
 	public void onCreate(Bundle savedInstanceState) {
@@ -42,11 +42,6 @@ public class MazeFragment extends Fragment implements SensorEventListener
 			Log.i("SensorList", sensor.getName() + " TYPE CODE: " + sensor.getType());
 		}
 		
-		TwoDDrawFrag = new TwoDDrawFrag();
-		OpenGL1DrawFrag= new OpenGL1DrawFrag();
-		OpenGL2DrawFrag= new OpenGL2DrawFrag();
-		OpenGL3DrawFrag= new OpenGL3DrawFrag();
-
 		Log.i("MarbleMazeActivity_OnCreate", "On create finished");
 
 	}
@@ -83,21 +78,36 @@ public class MazeFragment extends Fragment implements SensorEventListener
 		volume = prefs.getInt("volume", 100);
 		sensitivity = prefs.getInt("sensitivity", 100);
 		graphicsVersion = prefs.getInt("graphicsVersion", 0);
-		/*
-		private Fragment TwoDDrawFrag;
-		private Fragment OpenGL1DrawFrag;
-		private Fragment OpenGL2DrawFrag;
-		private Fragment OpenGL3DrawFrag;
-		
-		
-		if (graphicsVersion == 3 && OpenGL3DrawFrag.gets)
-		drawFrag = new TitleFragment();
-		FragmentTransaction transaction = getSupportFragmentManager()
+
+		if (graphicsVersion == 3 ){
+			drawFrag = new OpenGL3DrawFrag();
+			//playfield = new GLSurfaceView(getActivity());
+			playfield = (GLSurfaceView) getActivity().findViewById(R.id.playFieldView);
+		}
+		if (graphicsVersion == 2 ){
+			drawFrag = new OpenGL2DrawFrag();
+			//playfield = new GLSurfaceView(getActivity());
+			playfield = (GLSurfaceView) getActivity().findViewById(R.id.playFieldView);
+		}
+		if (graphicsVersion == 1 ){
+			drawFrag = new OpenGL1DrawFrag();
+			//playfield = new GLSurfaceView(getActivity());
+			playfield = (GLSurfaceView) getActivity().findViewById(R.id.playFieldView);
+		}
+		if (graphicsVersion == 0 ){
+			drawFrag = new TwoDDrawFrag();
+			//playfield = new SurfaceView(getActivity());
+			playfield = (SurfaceView) getActivity().findViewById(R.id.playFieldView);
+		}
+			
+		//playfield.findViewById(R.id.playField);
+		transaction = getActivity().getSupportFragmentManager()
 				.beginTransaction();
-		transaction.add(R.id.fragElement, titleFrag, "title");
-		// transaction.addToBackStack(null);
-		transaction.commit();
-		*/
+		
+		//transaction.add(R.id.fragElement, drawFrag, "draw");
+		//transaction.commit();
+		transaction.hide(drawFrag);
+		
 		mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
 		
 	}
@@ -107,7 +117,7 @@ public class MazeFragment extends Fragment implements SensorEventListener
 		super.onPause();
 
 		mSensorManager.unregisterListener(this);
-		
+		transaction.remove(drawFrag);
 	}
 
 

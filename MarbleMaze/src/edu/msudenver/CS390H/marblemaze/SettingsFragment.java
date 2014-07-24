@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -43,6 +44,9 @@ public class SettingsFragment extends Fragment implements
 	private int volume;
 	private int sensitivity;
 	private int graphicsVersion;
+	private SensorManager mSensorManager;
+	private List<Sensor> deviceSensors;
+	private TextView sensorListView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -83,15 +87,46 @@ public class SettingsFragment extends Fragment implements
 				.findViewById(R.id.graphics_Radio_OpenGL3);
 		graphicsSettings = (RadioGroup) parentActivity
 				.findViewById(R.id.settings_Graphics_Radio_Group);
+		sensorListView = (TextView) parentActivity
+			.findViewById(R.id.settings_SensorList);
 		
 		volumeBar.setOnSeekBarChangeListener(this);
 		sensitivityBar.setOnSeekBarChangeListener(this);
 		graphicsSettings.setOnCheckedChangeListener(this);
 		
-		volumeBar.setProgress(volumeBar.getMax());
-		sensitivityBar.setProgress(sensitivityBar.getMax());
-		lowVideoQuality.setChecked(true);
+		if (prefs.getInt("volume", 999) == 999
+			|| prefs.getInt("sensitivity", 999) == 999
+			|| prefs.getInt("graphicsVersion", 999) == 999) {
+			volumeBar.setProgress(prefs.getInt("volume", 999));
+			sensitivityBar.setProgress(prefs.getInt("sensitivity", 999));
+			switch (prefs.getInt("graphicsVersion", 999)) {
+				case 1:
+					low3DVideoQuality.setChecked(true);
+					break;
+				case 2:
+					med3DVideoQuality.setChecked(true);
+					break;
+				case 3:
+					high3DVideoQuality.setChecked(true);
+					break;
+				default:
+					lowVideoQuality.setChecked(true);
+					break;
+			}
+		} else {
+			volumeBar.setProgress(volumeBar.getMax());
+			sensitivityBar.setProgress(sensitivityBar.getMax());
+			lowVideoQuality.setChecked(true);
+		}
 		
+		
+		mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+		deviceSensors = mSensorManager.getSensorList(Sensor.TYPE_ALL);
+		//sensorListView.append();
+		for (Sensor sensor : deviceSensors){
+			sensorListView.append(sensor.getName() + " TYPE CODE: " + sensor.getType() +'\n');
+		}
+
 
 		lowVideoQuality.setEnabled(true);
 
