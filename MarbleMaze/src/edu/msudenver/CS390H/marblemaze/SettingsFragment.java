@@ -97,6 +97,10 @@ public class SettingsFragment extends Fragment implements
 		if (prefs.getInt("volume", 999) == 999
 			|| prefs.getInt("sensitivity", 999) == 999
 			|| prefs.getInt("graphicsVersion", 999) == 999) {
+			volumeBar.setProgress(volumeBar.getMax());
+			sensitivityBar.setProgress(sensitivityBar.getMax());
+			lowVideoQuality.setChecked(true);
+		} else {
 			volumeBar.setProgress(prefs.getInt("volume", 999));
 			sensitivityBar.setProgress(prefs.getInt("sensitivity", 999));
 			switch (prefs.getInt("graphicsVersion", 999)) {
@@ -113,10 +117,6 @@ public class SettingsFragment extends Fragment implements
 					lowVideoQuality.setChecked(true);
 					break;
 			}
-		} else {
-			volumeBar.setProgress(volumeBar.getMax());
-			sensitivityBar.setProgress(sensitivityBar.getMax());
-			lowVideoQuality.setChecked(true);
 		}
 		
 		
